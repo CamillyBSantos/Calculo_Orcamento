@@ -1,0 +1,75 @@
+#Nesse programa é possível fazer o calculo de orçamento de estadia.
+
+import os
+os.system("cls")
+
+# Função para calcular o orçamento
+def calcular_orcamento(quantidade_pessoas, periodo_estadia, tipo_apartamento):
+    # Tabelas de valores por tipo de apartamento e quantidade de pessoas
+    diaria_tipo_1 = [20.00, 28.00, 35.00, 42.00, 48.00, 53.00]
+    diaria_tipo_2 = [25.00, 34.00, 42.00, 50.00, 57.00, 63.00]
+    
+    # Seleciona a tabela de diárias com base no tipo de apartamento
+    diaria = diaria_tipo_1[quantidade_pessoas - 1] if tipo_apartamento == 1 else diaria_tipo_2[quantidade_pessoas - 1]
+    
+    # Calcula o custo total
+    custo_total = diaria * periodo_estadia
+    
+    return f"{cores['ciano']}O orçamento no Hotel Encanto do Horizonte para {quantidade_pessoas} pessoa(s) no apartamento tipo {tipo_apartamento} por {periodo_estadia} dia(s) é de R${custo_total:.2f} por dia(s).{cores['fim']}"
+
+# Função para coleta de entrada válida com validação
+def ler_inteiro(mensagem, erro_mensagem, min_valor=None, max_valor=None):
+    while True:
+        try:
+            valor = int(input(mensagem))
+            if (min_valor is not None and valor < min_valor) or (max_valor is not None and valor > max_valor):
+                print(f"{cores['erro']}Erro: Você deve estolher entre {min_valor} e {max_valor}!{cores['fim']}")
+            else:
+                return valor
+        except ValueError:
+            print(f"{cores['erro']}{erro_mensagem}{cores['fim']}")
+
+# Tabela de cores para facilitar a formatação
+cores = {
+    'fim': '\033[0m',
+    'erro': '\033[1;33;41m',
+    'negrito': '\033[1m',
+    'ciano': '\033[3;30;46m',
+    'cinza': '\033[3;36m'
+}
+
+# Mensagem de boas-vindas
+print(f'{cores["negrito"]}{cores["ciano"]}Bem-Vindo ao Hotel Encanto do Horizonte. Neste programa você poderá fazer o seu orçamento da estadia de 1 a 6 pessoas em um período de 1 a 30 dias.{cores["fim"]}')
+input(f'{cores["negrito"]}Pressione ENTER para começar')
+
+# Exibe a tabela de preços
+print(f'''{cores["cinza"]}|Valores da diária por pessoa no Apartamento 1:            |
+|                                       Diária por pessoa  |
+|               Quantidade de pessoas                      |
+|                          1                 R$20,00       |
+|                          2                 R$28,00       |
+|                          3                 R$35,00       |
+|                          4                 R$42,00       |
+|                          5                 R$48,00       |
+|                          6                 R$53,00       |
+|__________________________________________________________|
+|Valores da diária por pessoa no Apartamento 2:            |
+|                                        Diária por pessoa |
+|                Quantidade de pessoas                     |
+|                          1                  R$25,00      |
+|                          2                  R$34,00      |
+|                          3                  R$42,00      |
+|                          4                  R$50,00      |
+|                          5                  R$57,00      |
+|                          6                  R$63,00      |{cores['fim']}''')
+
+# Coleta de dados com validação
+quantidade_pessoas = ler_inteiro(f'{cores["negrito"]}Quantas pessoas irão curtir o Hotel Encanto do Horizonte? {cores["fim"]}', "Erro: O valor inserido para a quantidade de pessoas não é um número válido.", 1, 6)
+
+tipo_apartamento = ler_inteiro(f'{cores["negrito"]}Qual tipo de apartamento você(es) escolhe(em)? (1 ou 2) {cores["fim"]}', "Erro: O valor inserido para o tipo de apartamento não é um número válido.", 1, 2)
+
+periodo_estadia = ler_inteiro(f'{cores["negrito"]}Quantas diárias para aproveitar o nosso Hotel Encanto do Horizonte? {cores["fim"]}', "Erro: O valor inserido para as diárias não é um número válido.", 1, 30)
+
+# Calcula e exibe o orçamento
+resultado = calcular_orcamento(quantidade_pessoas, periodo_estadia, tipo_apartamento)
+print(resultado)
